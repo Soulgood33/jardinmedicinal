@@ -3,109 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jardín Medicinal | The Quest for Wellness</title>
+<title>Jardín Medicinal | Lab Quest</title>
 <style>
+/* Retro Gaming Font */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body {
-background-color: #0d1b0a;
+background-color: #050a05;
 color: #4af626;
 font-family: 'Press+Start+2P', cursive;
 display: flex; flex-direction: column; align-items: center; padding: 20px;
 text-transform: uppercase;
 }
 
-.game-screen {
+.game-container {
 width: 100%; max-width: 800px;
-border: 8px solid #2d5a27;
+border: 6px solid #2d5a27;
 background: #000;
 padding: 20px;
-box-shadow: 0 0 20px #4af626;
+box-shadow: 0 0 25px #2d5a27;
+}
+
+.stats {
+display: flex; justify-content: space-between;
+border-bottom: 2px solid #4af626;
+padding-bottom: 15px; margin-bottom: 20px;
+font-size: 10px; color: #fff;
+}
+
+.screen {
+height: 250px; overflow-y: auto;
+background: #0a0a0a; padding: 15px;
+font-size: 12px; line-height: 1.6;
+border: 2px inset #2d5a27;
 margin-bottom: 20px;
 }
 
-.stats-bar {
-display: flex; justify-content: space-between;
-border-bottom: 2px solid #4af626;
-padding-bottom: 10px; margin-bottom: 20px;
-font-size: 10px;
-}
-
-.pixel-art-header { text-align: center; color: #fff; margin-bottom: 20px; font-size: 18px; }
-
-.terminal {
-height: 200px; overflow-y: auto;
-background: #050505; padding: 10px;
-font-size: 12px; line-height: 1.8;
-border: 2px inset #2d5a27;
-}
-
 .controls {
-margin-top: 20px; display: grid;
-grid-template-columns: 1fr 1fr; gap: 10px;
+display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
 }
 
 button {
-background: #2d5a27; color: #fff;
-border: 4px outset #4af626; padding: 15px;
+background: #1a3517; color: #4af626;
+border: 4px outset #2d5a27; padding: 15px;
 font-family: 'Press+Start+2P', cursive; font-size: 10px;
 cursor: pointer;
 }
 
-button:active { border-style: inset; background: #1a3517; }
+button:hover { background: #2d5a27; color: #fff; }
+button:active { border-style: inset; }
 
-.inventory { margin-top: 30px; width: 100%; max-width: 800px; font-size: 10px; }
-.item { border: 1px solid #4af626; padding: 10px; margin: 5px; display: inline-block; }
+.inv-panel {
+margin-top: 20px; width: 100%; max-width: 800px;
+border: 2px dashed #4af626; padding: 15px; font-size: 9px;
+}
+
+.highlight { color: #fff; text-decoration: underline; }
 </style>
 </head>
 <body>
 
-<div class="pixel-art-header">Jardín Medicinal: Lab Quest</div>
+<h1 style="font-size: 18px; margin-bottom: 20px;">Jardín Medicinal: Lab Quest</h1>
 
-<div class="game-screen">
-<div class="stats-bar">
+<div class="game-container">
+<div class="stats">
+<span>RESEARCH LVL: 1</span>
 <span>HP: 100/100</span>
-<span>XP: 0</span>
-<span>LOCATION: SA LAB</span>
+<span>LOC: SA LAB</span>
 </div>
 
-<div class="terminal" id="game-text">
-WELCOME, RESEARCHER. YOUR MISSION: ASSEMBLE THE POTION OF WELLNESS. THE LAB CONTAINS MORINGA AND CHILTEPÍN. WHAT IS YOUR FIRST MOVE?
+<div class="screen" id="display">
+INITIALIZING MISSION... <br>
+WELCOME, RESEARCHER. THE WORLD NEEDS NEW BOTANICAL DISCOVERIES. <br><br>
+CHOOSE AN ACTION TO BEGIN YOUR RESEARCH INTO ANTI-CANCER PROPERTIES.
 </div>
 
 <div class="controls">
-<button onclick="interact('moringa')">SEARCH MORINGA</button>
-<button onclick="interact('chiltepin')">SEARCH CHILTEPÍN</button>
-<button onclick="interact('research')">READ RESEARCH</button>
-<button onclick="interact('apparel')">EQUIP GEAR</button>
+<button onclick="action('moringa')">STUDY MORINGA</button>
+<button onclick="action('pepper')">STUDY CHILTEPÍN</button>
+<button onclick="action('formula')">VIEW FORMULA</button>
+<button onclick="action('heal')">TREAT CELLS</button>
 </div>
 </div>
 
-<div class="inventory">
-<h3>INVENTORY (RESEARCH FORMULA)</h3>
-<div id="inv-list">
-<span class="item">6.5G SEED</span>
-<span class="item">2.5G CHILTEPÍN</span>
-<span class="item">41.0G LEAF</span>
-</div>
+<div class="inv-panel">
+<strong>CURRENT INVENTORY:</strong><br><br>
+6.5G MORINGA SEED | 2.5G CHILTEPÍN PEPPER | 41.0G MORINGA LEAF
 </div>
 
 <script>
-const textLog = document.getElementById('game-text');
+const display = document.getElementById('display');
 
-function interact(type) {
-let msg = "";
+function action(type) {
+let text = "";
 if(type === 'moringa') {
-msg = "> YOU HARVESTED MORINGA LEAF. RESEARCH SHOWS ANTI-CANCER PROPERTIES IN VITRO. +10 KNOWLEDGE.";
-} else if (type === 'chiltepin') {
-msg = "> CHILTEPÍN PEPPER COLLECTED. CAPSAICIN LEVELS ARE OPTIMAL FOR METABOLIC SUPPORT.";
-} else if (type === 'research') {
-msg = "> SYSTEM DATA: 6.5G SEED / 2.5G CHILTEPÍN / 41.0G LEAF. THIS MIX SUPPORTS DIABETES MANAGEMENT RESEARCH.";
-} else if (type === 'apparel') {
-msg = "> YOU EQUIPPED THE MEDICINAL GARDEN HAT. CHARISMA +5. SHOP LINK DETECTED.";
+text = "> STUDYING MORINGA... LEAVES DETECTED TO CONTAIN ISOTHIOCYANATES. RESEARCH SUGGESTS INHIBITION OF CANCER CELL GROWTH. +15 XP.";
+} else if (type === 'pepper') {
+text = "> HARVESTING CHILTEPÍN... CAPSAICIN IS BEING EXTRACTED. STUDIES SHOW POTENTIAL IN INDUCING APOPTOSIS (CELL DEATH) IN MALIGNANT CELLS.";
+} else if (type === 'formula') {
+text = "> ACCESSING SECURE DATA... OPTIMAL MIX DETECTED: 6.5G SEED, 2.5G PEPPER, 41.0G LEAF. RATIO SET FOR 100 CAPSULES.";
+} else if (type === 'heal') {
+text = "> SYSTEM ALERT: DISTRIBUTING BOTANICAL COMPOUNDS... DIABETIC MARKERS STABILIZING. HEALTH RECOVERY IN PROGRESS.";
 }
 
-textLog.innerHTML = msg + "<br><br>" + textLog.innerHTML;
+// Add new text to the top
+display.innerHTML = "<p>" + text + "</p>" + display.innerHTML;
 }
 </script>
 
